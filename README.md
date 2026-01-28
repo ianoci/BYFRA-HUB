@@ -17,6 +17,7 @@ EL's HUB is a script for the Roblox game 'Blade Spin'
 - INF XP Toggle (You have to play)
 - INF STATS
 - Auto Farm Toggle
+- Get All Swords
 
 ## Visual
 - ESP RGB Toggle
