@@ -37,6 +37,3 @@ BYFRA-HUB is a script for the Roblox game 'Blade Spin'
 - Lightweight and optimized for performance
 - Works with any executor, as it utilizes the [Rayfield Library](https://docs.sirius.menu/rayfield)
 - Default Rayfield theme
-
-## License
-This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
