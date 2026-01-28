@@ -1,0 +1,353 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "BYFRA HUB",
+   LoadingTitle = "Loading...",
+   LoadingSubtitle = "by Rayfield Library",
+   ConfigurationSaving = {
+      Enabled = false,
+      FolderName = nil,
+      FileName = "Config"
+   },
+   Discord = {
+      Enabled = false,
+      Invite = "noinvite",
+      RememberJoins = true
+   },
+   KeySystem = false,
+   KeySettings = {
+      Title = "Key System",
+      Subtitle = "Key System",
+      Note = "Enter the key",
+      FileName = "Key",
+      SaveKey = false,
+      GrabKeyFromSite = false,
+      Key = {"Key"}
+   }
+})
+
+local MainTab = Window:CreateTab("Main", 4483362458)
+
+local Section1 = MainTab:CreateSection("Movement")
+
+local WalkSpeedSlider = MainTab:CreateSlider({
+   Name = "WalkSpeed",
+   Range = {16, 500},
+   Increment = 1,
+   Suffix = "Speed",
+   CurrentValue = 16,
+   Flag = "WalkSpeedSlider",
+   Callback = function(Value)
+      game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+   end,
+})
+
+local JumpPowerSlider = MainTab:CreateSlider({
+   Name = "Jump Power",
+   Range = {50, 500},
+   Increment = 1,
+   Suffix = "Power",
+   CurrentValue = 50,
+   Flag = "JumpPowerSlider",
+   Callback = function(Value)
+      local player = game.Players.LocalPlayer
+      local character = player.Character or player.CharacterAdded:Wait()
+      local humanoid = character:WaitForChild("Humanoid")
+      
+      humanoid.UseJumpPower = true
+      humanoid.JumpPower = Value
+   end,
+})
+
+local InfJumpEnabled = false
+
+local InfJumpToggle = MainTab:CreateToggle({
+   Name = "Infinite Jump",
+   CurrentValue = false,
+   Flag = "InfJumpToggle",
+   Callback = function(Value)
+      InfJumpEnabled = Value
+   end,
+})
+
+game:GetService("UserInputService").JumpRequest:Connect(function()
+   if InfJumpEnabled then
+      local character = game.Players.LocalPlayer.Character
+      if character then
+         local humanoid = character:FindFirstChildOfClass("Humanoid")
+         if humanoid then
+            humanoid:ChangeState("Jumping")
+         end
+      end
+   end
+end)
+
+game.Players.LocalPlayer.CharacterAdded:Connect(function(character)
+   local humanoid = character:WaitForChild("Humanoid")
+   humanoid.UseJumpPower = true
+   humanoid.JumpPower = JumpPowerSlider.CurrentValue
+end)
+
+local OPTab = Window:CreateTab("OP", 4483362458)
+
+local Section2 = OPTab:CreateSection("Resources")
+
+local InfCoinsEnabled = false
+
+local InfCoinsToggle = OPTab:CreateToggle({
+   Name = "INF COINS (You have to play)",
+   CurrentValue = false,
+   Flag = "InfCoinsToggle",
+   Callback = function(Value)
+      InfCoinsEnabled = Value
+      
+      if Value then
+         spawn(function()
+            while InfCoinsEnabled do
+               local args = {999999}
+               game:GetService("ReplicatedStorage"):WaitForChild("ReplicatedStorageHolders"):WaitForChild("Events"):WaitForChild("AddCoins"):FireServer(unpack(args))
+               wait(0.1)
+            end
+         end)
+      end
+   end,
+})
+
+local InfXPEnabled = false
+
+local InfXPToggle = OPTab:CreateToggle({
+   Name = "INF XP (You have to play)",
+   CurrentValue = false,
+   Flag = "InfXPToggle",
+   Callback = function(Value)
+      InfXPEnabled = Value
+      
+      if Value then
+         spawn(function()
+            while InfXPEnabled do
+               local args = {999}
+               game:GetService("ReplicatedStorage"):WaitForChild("ReplicatedStorageHolders"):WaitForChild("Events"):WaitForChild("AddXP"):FireServer(unpack(args))
+               wait(0.1)
+            end
+         end)
+      end
+   end,
+})
+
+local InfStatsButton = OPTab:CreateButton({
+   Name = "INF STATS",
+   Callback = function()
+      spawn(function()
+         while true do
+            local stats = game.Players.LocalPlayer.Stats
+            stats.CoinBoost.Value = 9223372036854776000
+            stats.Damage.Value = 9223372036854776000
+            stats.Health.Value = 9223372036854776000
+            stats.MovementSpeed.Value = 9223372036854776000
+            stats.SpinSpeed.Value = 9223372036854776000
+            wait(0.1)
+         end
+      end)
+   end,
+})
+
+local Section4 = OPTab:CreateSection("Farming")
+
+local AutoFarmEnabled = false
+
+local AutoFarmToggle = OPTab:CreateToggle({
+   Name = "Auto Farm",
+   CurrentValue = false,
+   Flag = "AutoFarmToggle",
+   Callback = function(Value)
+      AutoFarmEnabled = Value
+      
+      if Value then
+         spawn(function()
+            while AutoFarmEnabled do
+               local player = game.Players.LocalPlayer
+               local character = player.Character
+               
+               if character and character:FindFirstChild("HumanoidRootPart") then
+                  local trees = workspace:FindFirstChild("Trees")
+                  
+                  if trees then
+                     for _, tree in pairs(trees:GetChildren()) do
+                        if not AutoFarmEnabled then break end
+                        
+                        if tree:IsA("Model") and tree:FindFirstChild("PrimaryPart") then
+                           character.HumanoidRootPart.CFrame = tree.PrimaryPart.CFrame
+                           wait(0.5)
+                        elseif tree:IsA("Model") then
+                           for _, part in pairs(tree:GetChildren()) do
+                              if part:IsA("BasePart") then
+                                 character.HumanoidRootPart.CFrame = part.CFrame
+                                 wait(0.5)
+                                 break
+                              end
+                           end
+                        end
+                     end
+                  end
+               end
+               
+               wait(0.1)
+            end
+         end)
+      end
+   end,
+})
+
+local VisualTab = Window:CreateTab("Visual", 4483362458)
+
+local Section3 = VisualTab:CreateSection("Visual Features")
+
+local ESPEnabled = false
+local ESPConnections = {}
+
+local function CreateESP(player)
+   if player == game.Players.LocalPlayer then return end
+   
+   local function AddESP(character)
+      local highlight = Instance.new("Highlight")
+      highlight.Name = "ESPHighlight"
+      highlight.Adornee = character
+      highlight.FillTransparency = 0.5
+      highlight.OutlineTransparency = 0
+      highlight.Parent = character
+      
+      local connection = game:GetService("RunService").RenderStepped:Connect(function()
+         if ESPEnabled then
+            local hue = tick() % 5 / 5
+            local color = Color3.fromHSV(hue, 1, 1)
+            highlight.FillColor = color
+            highlight.OutlineColor = color
+         end
+      end)
+      
+      table.insert(ESPConnections, connection)
+   end
+   
+   if player.Character then
+      AddESP(player.Character)
+   end
+   
+   player.CharacterAdded:Connect(function(character)
+      if ESPEnabled then
+         AddESP(character)
+      end
+   end)
+end
+
+local ESPToggle = VisualTab:CreateToggle({
+   Name = "ESP RGB",
+   CurrentValue = false,
+   Flag = "ESPToggle",
+   Callback = function(Value)
+      ESPEnabled = Value
+      
+      if Value then
+         for _, player in pairs(game.Players:GetPlayers()) do
+            CreateESP(player)
+         end
+         
+         game.Players.PlayerAdded:Connect(function(player)
+            if ESPEnabled then
+               CreateESP(player)
+            end
+         end)
+      else
+         for _, connection in pairs(ESPConnections) do
+            connection:Disconnect()
+         end
+         ESPConnections = {}
+         
+         for _, player in pairs(game.Players:GetPlayers()) do
+            if player.Character then
+               local highlight = player.Character:FindFirstChild("ESPHighlight")
+               if highlight then
+                  highlight:Destroy()
+               end
+            end
+         end
+      end
+   end,
+})
+
+local CrosshairEnabled = false
+local CrosshairGui = nil
+
+local CrosshairToggle = VisualTab:CreateToggle({
+   Name = "Crosshair RGB",
+   CurrentValue = false,
+   Flag = "CrosshairToggle",
+   Callback = function(Value)
+      CrosshairEnabled = Value
+      
+      if Value then
+         local ScreenGui = Instance.new("ScreenGui")
+         ScreenGui.Name = "CrosshairGui"
+         ScreenGui.Parent = game.CoreGui
+         
+         local Frame1 = Instance.new("Frame")
+         Frame1.Size = UDim2.new(0, 20, 0, 2)
+         Frame1.Position = UDim2.new(0.5, -10, 0.5, -1)
+         Frame1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+         Frame1.BorderSizePixel = 0
+         Frame1.Parent = ScreenGui
+         
+         local Frame2 = Instance.new("Frame")
+         Frame2.Size = UDim2.new(0, 2, 0, 20)
+         Frame2.Position = UDim2.new(0.5, -1, 0.5, -10)
+         Frame2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+         Frame2.BorderSizePixel = 0
+         Frame2.Parent = ScreenGui
+         
+         CrosshairGui = ScreenGui
+         
+         spawn(function()
+            while CrosshairEnabled do
+               local hue = tick() % 5 / 5
+               local color = Color3.fromHSV(hue, 1, 1)
+               Frame1.BackgroundColor3 = color
+               Frame2.BackgroundColor3 = color
+               wait()
+            end
+         end)
+      else
+         if CrosshairGui then
+            CrosshairGui:Destroy()
+            CrosshairGui = nil
+         end
+      end
+   end,
+})
+
+local TrollTab = Window:CreateTab("Troll ツ", 4483362458)
+
+local Section5 = TrollTab:CreateSection("Troll Features")
+
+local FlingButton = TrollTab:CreateButton({
+   Name = "Kawaii Freaky Fling (Fling players)",
+   Callback = function()
+      loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-KAWAII-FREAKY-FLING-BEST-UNIVERSAL-FLING-17551"))()
+   end,
+})
+
+local InfiniteYieldButton = TrollTab:CreateButton({
+   Name = "Infinite Yield",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+   end,
+})
+
+local SettingsTab = Window:CreateTab("Settings", 4483362458)
+
+local Section6 = SettingsTab:CreateSection("GUI Settings")
+
+local DestroyGUIButton = SettingsTab:CreateButton({
+   Name = "Destroy GUI",
+   Callback = function()
+      Rayfield:Destroy()
+   end,
+})
