@@ -1,6 +1,6 @@
 # BYFRA-HUB
 ```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/ianoci/RIKA-HUB/refs/heads/main/Source"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ianoci/BYFRA-HUB/refs/heads/main/Source"))()
 ```
 EL's HUB is a script for the Roblox game 'Blade Spin'
 
