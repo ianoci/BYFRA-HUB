@@ -2,7 +2,7 @@
 ```lua
 loadstring(game:HttpGet("https://raw.githubusercontent.com/ianoci/BYFRA-HUB/refs/heads/main/Source"))()
 ```
-EL's HUB is a script for the Roblox game 'Blade Spin'
+BYFRA-HUB is a script for the Roblox game 'Blade Spin'
 
 
 [![Mobile](Images.webp)](https://example.com)
