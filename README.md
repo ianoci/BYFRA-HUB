@@ -7,16 +7,18 @@ EL's HUB is a script for the Roblox game 'Blade Spin'
 
 [![Mobile](Images.webp)](https://example.com)
 
-## Features
-- TP: Safe Zone  
-- TP: End Zone  
-- TP: Carry Upgrade  
-- TP: Speed Upgrade
-- Inf Jump  
-- Select Zones and Teleport  
-- Sell All Brainrots  
-- Disable Waves  
-- Disable VIP Zones
+## Main
+- Jumpower
+- Walkspeed
+- Infinite Jump
+
+## OP (Not visual)
+- INF COINS
+- INF XP
+- INF STATS
+- Auto Farm
+
+##
 - Fully functional on PC and mobile devices
 - Lightweight and optimized for performance
 - Works with any executor, as it utilizes the [Rayfield Library](https://docs.sirius.menu/rayfield)
