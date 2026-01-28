@@ -18,7 +18,11 @@ EL's HUB is a script for the Roblox game 'Blade Spin'
 - INF STATS
 - Auto Farm
 
-##
+## Visual
+- ESP RGB
+- Crosshair RGB
+
+## Troll 
 - Fully functional on PC and mobile devices
 - Lightweight and optimized for performance
 - Works with any executor, as it utilizes the [Rayfield Library](https://docs.sirius.menu/rayfield)
