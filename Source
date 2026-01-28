@@ -151,6 +151,13 @@ local InfStatsButton = OPTab:CreateButton({
    end,
 })
 
+local GetAllSwordsButton = OPTab:CreateButton({
+   Name = "Get all swords",
+   Callback = function()
+      loadstring(game:HttpGet("https://pastefy.app/4adnJySv/raw"))()
+   end,
+})
+
 local Section4 = OPTab:CreateSection("Farming")
 
 local AutoFarmEnabled = false
